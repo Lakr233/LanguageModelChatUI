@@ -1,0 +1,16 @@
+.DS_Store
+.build/
+.swiftpm/
+.claude/
+DerivedData/
+*.xcuserstate
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+reference/
+.cache/
+.local-home/
+.xcode-derived/
+References/
+Package.resolved
+/.codex*

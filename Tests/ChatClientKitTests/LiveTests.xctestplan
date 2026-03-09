@@ -1,0 +1,54 @@
+{
+  "configurations" : [
+    {
+      "id" : "94C0E0FF-0001-0001-0001-000000000001",
+      "name" : "Live Tests",
+      "options" : {
+        "environmentVariableEntries" : [
+          {
+            "key" : "DEEPSEEK_API_KEY",
+            "value" : ""
+          },
+          {
+            "key" : "MOONSHOT_API_KEY",
+            "value" : ""
+          },
+          {
+            "key" : "MISTRAL_API_KEY",
+            "value" : ""
+          },
+          {
+            "key" : "CEREBRAS_API_KEY",
+            "value" : ""
+          },
+          {
+            "key" : "GROQ_API_KEY",
+            "value" : ""
+          },
+          {
+            "key" : "OPENROUTER_API_KEY",
+            "value" : ""
+          },
+          {
+            "key" : "ANTHROPIC_API_KEY",
+            "value" : ""
+          }
+        ]
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true,
+    "defaultTestExecutionTimeAllowance" : 60
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "ChatClientKitTests",
+        "name" : "ChatClientKitTests"
+      }
+    }
+  ],
+  "version" : 1
+}
