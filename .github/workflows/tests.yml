@@ -1,0 +1,63 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app
+
+      - name: Build and run unit tests
+        run: |
+          xcodebuild test \
+            -scheme ChatClientKitTests \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -skipPackagePluginValidation \
+            -only-testing:ChatClientKitTests/DeepSeekReasoningStrippingTests \
+            -only-testing:ChatClientKitTests/SerializationIdempotencyTests \
+            -only-testing:ChatClientKitTests/AnthropicStreamEventDecodingTests \
+            -only-testing:ChatClientKitTests/ProviderURLTests \
+            -only-testing:ChatClientKitTests/ChatCompletionChunkDecodingTests
+
+  live-integration-tests:
+    name: Live Integration Tests
+    runs-on: macos-15
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    env:
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      MOONSHOT_API_KEY: ${{ secrets.MOONSHOT_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+      CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app
+
+      - name: Build and run live integration tests
+        run: |
+          xcodebuild test \
+            -scheme ChatClientKitTests \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -skipPackagePluginValidation \
+            -only-testing:ChatClientKitTests/DeepSeekLiveTests \
+            -only-testing:ChatClientKitTests/KimiLiveTests \
+            -only-testing:ChatClientKitTests/OpenRouterLiveTests \
+            -only-testing:ChatClientKitTests/MistralLiveTests \
+            -only-testing:ChatClientKitTests/CerebrasLiveTests \
+            -only-testing:ChatClientKitTests/AnthropicLiveTests
