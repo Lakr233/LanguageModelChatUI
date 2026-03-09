@@ -59,4 +59,4 @@ See the `Example/` directory for a complete demo app.
 
 ## License
 
-MIT License. Copyright (c) 2025 Lakr233.
+MIT License. Copyright (c) 2026 Lakr233.
