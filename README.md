@@ -2,7 +2,11 @@
 
 A UIKit chat interface for building LLM-powered conversations on iOS. Supports streaming responses, tool calling, vision inputs, speech-to-text, and markdown rendering out of the box.
 
-> Extracted from [FlowDown](https://github.com/Lakr233/FlowDown).
+## Preview
+
+This library was extracted from [FlowDown](https://github.com/Lakr233/FlowDown).
+
+![A Fun Preview](./Example/SCR-PREVIEW.png)
 
 ## Requirements
 
@@ -18,10 +22,10 @@ A UIKit chat interface for building LLM-powered conversations on iOS. Supports s
 
 Two products are available:
 
-| Product | Description |
-|---------|-------------|
-| `ChatClientKit` | Lightweight client for OpenAI-compatible APIs |
-| `LanguageModelChatUI` | Full chat UI built on top of ChatClientKit |
+| Product               | Description                                           |
+| --------------------- | ----------------------------------------------------- |
+| `ChatClientKit`       | Lightweight client for language model networking APIs |
+| `LanguageModelChatUI` | Full chat UI built on top of ChatClientKit            |
 
 ## Quick Start
 
@@ -29,6 +33,7 @@ Two products are available:
 import ChatClientKit
 import LanguageModelChatUI
 
+// checkout demo app for more
 let client = OpenAICompatibleClient(
     model: "your-model-id",
     baseURL: "https://api.example.com/v1",
@@ -51,10 +56,6 @@ let controller = ChatViewController(
 ```
 
 See the `Example/` directory for a complete demo app.
-
-## Preview
-
-For a full-featured app built with this library, check out [FlowDown](https://github.com/Lakr233/FlowDown).
 
 ## License
 
