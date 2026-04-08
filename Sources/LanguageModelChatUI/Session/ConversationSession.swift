@@ -14,15 +14,18 @@ import Foundation
 @MainActor
 public final class ConversationSession: Identifiable, Sendable {
     public struct Model: Sendable {
+        public var model: String
         public var client: any ChatClient
         public var capabilities: Set<ModelCapability>
         public var contextLength: Int
 
         public init(
+            model: String,
             client: any ChatClient,
             capabilities: Set<ModelCapability> = [],
             contextLength: Int = 0
         ) {
+            self.model = model
             self.client = client
             self.capabilities = capabilities
             self.contextLength = contextLength

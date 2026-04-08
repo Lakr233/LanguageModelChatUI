@@ -68,6 +68,7 @@ extension ConversationSession {
         do {
             let client = titleGenerationModel.client
             let stream = try await client.streamingChat(body: .init(
+                model: titleGenerationModel.model,
                 messages: [.user(content: .text(prompt))],
                 stream: true,
                 tools: [ConversationTitleMetadata.generationTool]

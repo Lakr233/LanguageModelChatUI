@@ -31,6 +31,7 @@ extension ConversationSession {
         let client = model.client
         let stream = try await client.streamingChat(
             body: .init(
+                model: model.model,
                 messages: requestMessages,
                 stream: true,
                 tools: tools

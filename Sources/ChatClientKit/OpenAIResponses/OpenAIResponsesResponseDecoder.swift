@@ -32,12 +32,7 @@ struct ResponsesAPIResponse: Decodable {
 
     func asChatResponseBody() -> [ChatResponseChunk] {
         let outputItems = output ?? []
-
-        for item in outputItems {
-            if let toolCall = item.asToolRequest() {
-                return [.tool(toolCall)]
-            }
-        }
+        var chunks: [ChatResponseChunk] = []
 
         let reasoning = outputItems
             .compactMap { item -> String? in
@@ -50,7 +45,7 @@ struct ResponsesAPIResponse: Decodable {
             .trimmingCharacters(in: .whitespacesAndNewlines)
 
         if !reasoning.isEmpty {
-            return [.reasoning(reasoning)]
+            chunks.append(.reasoning(reasoning))
         }
 
         let text = outputItems
@@ -59,10 +54,20 @@ struct ResponsesAPIResponse: Decodable {
             .trimmingCharacters(in: .whitespacesAndNewlines)
 
         if !text.isEmpty {
-            return [.text(text)]
+            chunks.append(.text(text))
         }
 
-        return [.text("")]
+        for item in outputItems {
+            if let toolCall = item.asToolRequest() {
+                chunks.append(.tool(toolCall))
+            }
+        }
+
+        if chunks.isEmpty {
+            return [.text("")]
+        }
+
+        return chunks
     }
 }
 
