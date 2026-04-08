@@ -14,7 +14,7 @@ extension ChatRequestBody {
             "[\(index)] \(message.debugSummary)"
         }.joined(separator: " | ")
 
-        return "model=\(model ?? "nil") stream=\(stream?.description ?? "nil") messages=\(messages.count) tools=\(tools?.count ?? 0) \(messageSummaries)"
+        return "model=\(model) stream=\(stream?.description ?? "nil") messages=\(messages.count) tools=\(tools?.count ?? 0) \(messageSummaries)"
     }
 }
 

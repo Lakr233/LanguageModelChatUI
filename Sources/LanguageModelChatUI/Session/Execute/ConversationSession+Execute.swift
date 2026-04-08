@@ -44,7 +44,7 @@ public extension ConversationSession {
                     }
                 }
 
-                await messageListView.loading()
+                messageListView.loading()
 
                 await executeInference(
                     model: model,
@@ -59,8 +59,8 @@ public extension ConversationSession {
         }
     }
 
-    internal func requestUpdate(view: MessageListView) async {
-        await view.stopLoading()
+    internal func requestUpdate(view: MessageListView) {
+        view.stopLoading()
         notifyMessagesDidChange()
     }
 
@@ -86,7 +86,7 @@ public extension ConversationSession {
                 msg.parts.append(attachment)
             }
         }
-        await requestUpdate(view: messageListView)
+        requestUpdate(view: messageListView)
         persistMessages()
 
         // Add user content to request using the same builder as history reconstruction.
@@ -112,14 +112,14 @@ public extension ConversationSession {
         }
 
         // Trim context
-        await messageListView.loading(with: String.localized("Calculating context window..."))
+        messageListView.loading(with: String.localized("Calculating context window..."))
         await trimToContextLength(
             &requestMessages,
             tools: tools,
             maxTokens: modelContextLength
         )
 
-        await messageListView.stopLoading()
+        messageListView.stopLoading()
 
         // Execute inference loop
         do {
@@ -135,18 +135,18 @@ public extension ConversationSession {
                 persistMessages()
             } while shouldContinue
 
-            await requestUpdate(view: messageListView)
+            requestUpdate(view: messageListView)
 
             await updateTitle()
         } catch {
             _ = appendNewMessage(role: .assistant) { msg in
                 msg.textContent = "```\n\(error.localizedDescription)\n```"
             }
-            await requestUpdate(view: messageListView)
+            requestUpdate(view: messageListView)
         }
 
         stopThinkingForAll()
-        await requestUpdate(view: messageListView)
+        requestUpdate(view: messageListView)
         persistMessages()
 
         sessionDelegate?.allowIdleTimer()

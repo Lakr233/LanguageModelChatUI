@@ -223,15 +223,17 @@ public final class ConversationSession: Identifiable, Sendable {
         if thinkingDurationTimer[messageID] != nil { return }
         guard let message = message(for: messageID) else { return }
         let timer = Timer(timeInterval: 1, repeats: true) { [weak self] _ in
-            guard let self else { return }
-            for (index, part) in message.parts.enumerated() {
-                if case var .reasoning(reasoningPart) = part {
-                    reasoningPart.duration += 1
-                    message.parts[index] = .reasoning(reasoningPart)
-                    break
+            MainActor.assumeIsolated { [weak self] in
+                guard let self else { return }
+                for (index, part) in message.parts.enumerated() {
+                    if case var .reasoning(reasoningPart) = part {
+                        reasoningPart.duration += 1
+                        message.parts[index] = .reasoning(reasoningPart)
+                        break
+                    }
                 }
+                notifyMessagesDidChange(scrolling: false)
             }
-            notifyMessagesDidChange(scrolling: false)
         }
         RunLoop.main.add(timer, forMode: .common)
         thinkingDurationTimer[messageID] = timer
