@@ -4,7 +4,7 @@ import Foundation
 /// Domain representation of a chat completion request, mirroring `ChatRequestBody`
 /// with builder conveniences, normalization, and caching helpers.
 public struct ChatRequest: Sendable {
-    public var model: String?
+    public var model: String
     public var messages: [Message]
     public var maxCompletionTokens: Int?
     public var stream: Bool?
@@ -12,7 +12,7 @@ public struct ChatRequest: Sendable {
     public var tools: [Tool]?
 
     public init(
-        model: String? = nil,
+        model: String = "",
         messages: [Message],
         maxCompletionTokens: Int? = nil,
         stream: Bool? = nil,
@@ -28,7 +28,7 @@ public struct ChatRequest: Sendable {
     }
 
     public init(
-        model: String? = nil,
+        model: String = "",
         maxCompletionTokens: Int? = nil,
         stream: Bool? = nil,
         temperature: Double? = nil,
@@ -60,15 +60,14 @@ public extension ChatRequest {
 
 extension ChatRequest: ChatRequestConvertible {
     public func asChatRequestBody() throws -> ChatRequestBody {
-        var body = ChatRequestBody(
+        ChatRequestBody(
+            model: model,
             messages: Self.normalize(messages),
             maxCompletionTokens: maxCompletionTokens,
             stream: stream,
             temperature: temperature,
             tools: tools.map(Self.normalizeTools)
         )
-        body.model = Self.trimmed(model)
-        return body
     }
 }
 

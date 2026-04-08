@@ -14,11 +14,9 @@ import Foundation
 
 open class GrokClient: OpenAICompatibleClient, @unchecked Sendable {
     public convenience init(
-        model: String = "grok-3-mini",
         apiKey: String? = nil
     ) {
         self.init(
-            model: model,
             baseURL: "https://api.x.ai",
             path: "/v1/chat/completions",
             apiKey: apiKey

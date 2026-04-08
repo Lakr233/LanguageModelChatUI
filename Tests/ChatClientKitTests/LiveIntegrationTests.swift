@@ -24,13 +24,13 @@ import Testing
 @Suite(.tags(.live))
 struct DeepSeekLiveTests {
     let client = DeepSeekClient(
-        model: "deepseek-reasoner",
         apiKey: TestAPIKeys.deepseek
     )
 
     @Test("Stream chat with reasoning content")
     func streamWithReasoning() async throws {
         let body = ChatRequestBody(
+            model: "deepseek-reasoner",
             messages: [
                 .user(content: .text("What is 15 + 27? Think step by step.")),
             ],
@@ -63,6 +63,7 @@ struct DeepSeekLiveTests {
     @Test("Chat completion aggregates correctly")
     func chatCompletion() async throws {
         let body = ChatRequestBody(
+            model: "deepseek-reasoner",
             messages: [
                 .user(content: .text("Reply with just the word: hello")),
             ],
@@ -82,6 +83,7 @@ struct DeepSeekLiveTests {
     func multiTurnStripsReasoning() async throws {
         // Turn 1: get a response with reasoning
         let turn1Body = ChatRequestBody(
+            model: "deepseek-reasoner",
             messages: [
                 .user(content: .text("My name is Alice. What is 2+3?")),
             ],
@@ -99,6 +101,7 @@ struct DeepSeekLiveTests {
 
         // Turn 2: include reasoning in the assistant message — DeepSeekClient strips it
         let turn2Body = ChatRequestBody(
+            model: "deepseek-reasoner",
             messages: [
                 .user(content: .text("My name is Alice. What is 2+3?")),
                 .assistant(
@@ -125,13 +128,13 @@ struct DeepSeekLiveTests {
 @Suite(.tags(.live))
 struct KimiLiveTests {
     let client = MoonshotClient(
-        model: "kimi-k2.5",
         apiKey: TestAPIKeys.moonshot
     )
 
     @Test("Stream chat with reasoning content")
     func streamWithReasoning() async throws {
         let body = ChatRequestBody(
+            model: "kimi-k2.5",
             messages: [
                 .user(content: .text("What is 15 + 27? Think step by step.")),
             ],
@@ -164,6 +167,7 @@ struct KimiLiveTests {
     @Test("Chat completion")
     func chatCompletion() async throws {
         let body = ChatRequestBody(
+            model: "kimi-k2.5",
             messages: [
                 .user(content: .text("Reply with just the word: hello")),
             ],
@@ -182,6 +186,7 @@ struct KimiLiveTests {
     @Test("Multi-turn conversation with reasoning in history")
     func multiTurnWithReasoning() async throws {
         let turn1Body = ChatRequestBody(
+            model: "kimi-k2.5",
             messages: [
                 .user(content: .text("My name is Bob. What is 3+4?")),
             ],
@@ -199,6 +204,7 @@ struct KimiLiveTests {
 
         // Turn 2: include previous response in history
         let turn2Body = ChatRequestBody(
+            model: "kimi-k2.5",
             messages: [
                 .user(content: .text("My name is Bob. What is 3+4?")),
                 .assistant(
@@ -227,11 +233,11 @@ struct OpenRouterLiveTests {
     @Test("Stream Claude Sonnet 4.6 via OpenRouter")
     func streamClaudeSonnet() async throws {
         let client = OpenRouterClient(
-            model: "anthropic/claude-sonnet-4.6",
             apiKey: TestAPIKeys.openRouter
         )
 
         let body = ChatRequestBody(
+            model: "anthropic/claude-sonnet-4.6",
             messages: [
                 .user(content: .text("What is 2 + 2? Reply briefly.")),
             ],
@@ -263,11 +269,11 @@ struct OpenRouterLiveTests {
     @Test("Stream Gemini 3 Flash via OpenRouter")
     func streamGemini() async throws {
         let client = OpenRouterClient(
-            model: "google/gemini-3-flash-preview",
             apiKey: TestAPIKeys.openRouter
         )
 
         let body = ChatRequestBody(
+            model: "google/gemini-3-flash-preview",
             messages: [
                 .user(content: .text("What is 3 * 7? Reply briefly.")),
             ],
@@ -298,11 +304,11 @@ struct OpenRouterLiveTests {
     @Test("Chat completion with Claude Sonnet")
     func chatCompletionClaude() async throws {
         let client = OpenRouterClient(
-            model: "anthropic/claude-sonnet-4.6",
             apiKey: TestAPIKeys.openRouter
         )
 
         let body = ChatRequestBody(
+            model: "anthropic/claude-sonnet-4.6",
             messages: [
                 .user(content: .text("Reply with just the word: hello")),
             ],
@@ -319,11 +325,11 @@ struct OpenRouterLiveTests {
     @Test("Chat completion with Gemini 3 Flash")
     func chatCompletionGemini() async throws {
         let client = OpenRouterClient(
-            model: "google/gemini-3-flash-preview",
             apiKey: TestAPIKeys.openRouter
         )
 
         let body = ChatRequestBody(
+            model: "google/gemini-3-flash-preview",
             messages: [
                 .user(content: .text("Reply with just the word: hello")),
             ],
@@ -341,11 +347,11 @@ struct OpenRouterLiveTests {
     @Test("Multi-turn conversation with Claude Sonnet")
     func multiTurnClaudeSonnet() async throws {
         let client = OpenRouterClient(
-            model: "anthropic/claude-sonnet-4.6",
             apiKey: TestAPIKeys.openRouter
         )
 
         let turn1Body = ChatRequestBody(
+            model: "anthropic/claude-sonnet-4.6",
             messages: [
                 .user(content: .text("My name is Charlie. Remember it.")),
             ],
@@ -359,6 +365,7 @@ struct OpenRouterLiveTests {
         #expect(!turn1Response.text.isEmpty, "Turn 1 should produce text")
 
         let turn2Body = ChatRequestBody(
+            model: "anthropic/claude-sonnet-4.6",
             messages: [
                 .user(content: .text("My name is Charlie. Remember it.")),
                 .assistant(content: .text(turn1Response.text)),
@@ -380,11 +387,11 @@ struct OpenRouterLiveTests {
     @Test("Multi-turn conversation with Gemini 3 Flash")
     func multiTurnGemini() async throws {
         let client = OpenRouterClient(
-            model: "google/gemini-3-flash-preview",
             apiKey: TestAPIKeys.openRouter
         )
 
         let turn1Body = ChatRequestBody(
+            model: "google/gemini-3-flash-preview",
             messages: [
                 .user(content: .text("My name is Diana. Remember it.")),
             ],
@@ -399,6 +406,7 @@ struct OpenRouterLiveTests {
         #expect(!turn1Response.text.isEmpty, "Turn 1 should produce text")
 
         let turn2Body = ChatRequestBody(
+            model: "google/gemini-3-flash-preview",
             messages: [
                 .user(content: .text("My name is Diana. Remember it.")),
                 .assistant(
@@ -424,13 +432,13 @@ struct OpenRouterLiveTests {
 @Suite(.tags(.live))
 struct Gemini31ProLiveTests {
     let client = OpenRouterClient(
-        model: "google/gemini-3-pro-preview",
         apiKey: TestAPIKeys.openRouter
     )
 
     @Test("Stream with reasoning content (thinking)")
     func streamWithReasoning() async throws {
         let body = ChatRequestBody(
+            model: "google/gemini-3-pro-preview",
             messages: [
                 .user(content: .text("What is 15 + 27?")),
             ],
@@ -463,6 +471,7 @@ struct Gemini31ProLiveTests {
     @Test("Streaming decodes reasoning_details when present")
     func streamReturnsReasoningDetails() async throws {
         let body = ChatRequestBody(
+            model: "google/gemini-3-pro-preview",
             messages: [
                 .user(content: .text("What is 2 + 3?")),
             ],
@@ -516,6 +525,7 @@ struct Gemini31ProLiveTests {
     @Test("Multi-turn conversation with reasoning model")
     func multiTurnWithReasoning() async throws {
         let turn1Body = ChatRequestBody(
+            model: "google/gemini-3-pro-preview",
             messages: [
                 .user(content: .text("My name is Eve. What is 10+5?")),
             ],
@@ -531,6 +541,7 @@ struct Gemini31ProLiveTests {
         #expect(!turn1Response.text.isEmpty, "Turn 1 should produce text")
 
         let turn2Body = ChatRequestBody(
+            model: "google/gemini-3-pro-preview",
             messages: [
                 .user(content: .text("My name is Eve. What is 10+5?")),
                 .assistant(
@@ -557,7 +568,6 @@ struct Gemini31ProLiveTests {
 @Suite(.tags(.live))
 struct MistralLiveTests {
     let client = OpenAICompatibleClient(
-        model: "mistral-small-latest",
         baseURL: "https://api.mistral.ai",
         path: "/v1/chat/completions",
         apiKey: TestAPIKeys.mistral
@@ -566,6 +576,7 @@ struct MistralLiveTests {
     @Test("Stream chat")
     func streamChat() async throws {
         let body = ChatRequestBody(
+            model: "mistral-small-latest",
             messages: [
                 .user(content: .text("What is 2 + 2? Reply briefly.")),
             ],
@@ -591,6 +602,7 @@ struct MistralLiveTests {
     @Test("Chat completion")
     func chatCompletion() async throws {
         let body = ChatRequestBody(
+            model: "mistral-small-latest",
             messages: [
                 .user(content: .text("Reply with just the word: hello")),
             ],
@@ -607,6 +619,7 @@ struct MistralLiveTests {
     @Test("Multi-turn conversation")
     func multiTurn() async throws {
         let turn1Body = ChatRequestBody(
+            model: "mistral-small-latest",
             messages: [
                 .user(content: .text("My name is Grace. Remember it.")),
             ],
@@ -619,6 +632,7 @@ struct MistralLiveTests {
         #expect(!turn1Response.text.isEmpty, "Turn 1 should produce text")
 
         let turn2Body = ChatRequestBody(
+            model: "mistral-small-latest",
             messages: [
                 .user(content: .text("My name is Grace. Remember it.")),
                 .assistant(content: .text(turn1Response.text)),
@@ -640,7 +654,6 @@ struct MistralLiveTests {
 @Suite(.tags(.live))
 struct CerebrasLiveTests {
     let client = OpenAICompatibleClient(
-        model: "llama3.1-8b",
         baseURL: "https://api.cerebras.ai",
         path: "/v1/chat/completions",
         apiKey: TestAPIKeys.cerebras
@@ -649,6 +662,7 @@ struct CerebrasLiveTests {
     @Test("Stream chat")
     func streamChat() async throws {
         let body = ChatRequestBody(
+            model: "llama3.1-8b",
             messages: [
                 .user(content: .text("What is 2 + 2? Reply briefly.")),
             ],
@@ -675,6 +689,7 @@ struct CerebrasLiveTests {
     @Test("Chat completion")
     func chatCompletion() async throws {
         let body = ChatRequestBody(
+            model: "llama3.1-8b",
             messages: [
                 .user(content: .text("Reply with just the word: hello")),
             ],
@@ -692,6 +707,7 @@ struct CerebrasLiveTests {
     @Test("Multi-turn conversation")
     func multiTurn() async throws {
         let turn1Body = ChatRequestBody(
+            model: "llama3.1-8b",
             messages: [
                 .user(content: .text("My name is Hank. Remember it.")),
             ],
@@ -705,6 +721,7 @@ struct CerebrasLiveTests {
         #expect(!turn1Response.text.isEmpty, "Turn 1 should produce text")
 
         let turn2Body = ChatRequestBody(
+            model: "llama3.1-8b",
             messages: [
                 .user(content: .text("My name is Hank. Remember it.")),
                 .assistant(content: .text(turn1Response.text)),
@@ -727,7 +744,6 @@ struct CerebrasLiveTests {
 @Suite(.tags(.live))
 struct AnthropicLiveTests {
     let client = AnthropicClient(
-        model: "claude-haiku-4-5-20251001",
         apiKey: TestAPIKeys.anthropic,
         thinkingBudgetTokens: 1024
     )
@@ -735,6 +751,7 @@ struct AnthropicLiveTests {
     @Test("Stream chat with extended thinking")
     func streamWithThinking() async throws {
         let body = ChatRequestBody(
+            model: "claude-haiku-4-5-20251001",
             messages: [
                 .user(content: .text("What is 15 + 27? Think step by step.")),
             ],
@@ -773,6 +790,7 @@ struct AnthropicLiveTests {
     @Test("Chat completion with extended thinking")
     func chatCompletion() async throws {
         let body = ChatRequestBody(
+            model: "claude-haiku-4-5-20251001",
             messages: [
                 .user(content: .text("Reply with just the word: hello")),
             ],
@@ -793,6 +811,7 @@ struct AnthropicLiveTests {
     @Test("Multi-turn conversation with extended thinking")
     func multiTurnWithThinking() async throws {
         let turn1Body = ChatRequestBody(
+            model: "claude-haiku-4-5-20251001",
             messages: [
                 .user(content: .text("My name is Iris. What is 6+7?")),
             ],
@@ -809,6 +828,7 @@ struct AnthropicLiveTests {
         #expect(!turn1Response.reasoning.isEmpty, "Turn 1 should produce reasoning")
 
         let turn2Body = ChatRequestBody(
+            model: "claude-haiku-4-5-20251001",
             messages: [
                 .user(content: .text("My name is Iris. What is 6+7?")),
                 .assistant(
@@ -848,6 +868,7 @@ struct AnthropicLiveTests {
         )
 
         let initialBody = ChatRequestBody(
+            model: "claude-haiku-4-5-20251001",
             messages: [
                 .user(content: .text("What is the current weather in Tokyo? Use the get_weather tool.")),
             ],
@@ -900,6 +921,7 @@ struct AnthropicLiveTests {
         )
 
         let continuationBody = ChatRequestBody(
+            model: "claude-haiku-4-5-20251001",
             messages: [
                 .user(content: .text("What is the current weather in Tokyo? Use the get_weather tool.")),
                 toolCallMessage,
@@ -929,12 +951,12 @@ struct AnthropicLiveTests {
     @Test("Stream without extended thinking")
     func streamWithoutThinking() async throws {
         let plainClient = AnthropicClient(
-            model: "claude-haiku-4-5-20251001",
             apiKey: TestAPIKeys.anthropic,
             thinkingBudgetTokens: 0
         )
 
         let body = ChatRequestBody(
+            model: "claude-haiku-4-5-20251001",
             messages: [
                 .user(content: .text("What is 2 + 2? Reply briefly.")),
             ],
@@ -964,12 +986,12 @@ struct AnthropicLiveTests {
     @Test("Multi-turn without extended thinking")
     func multiTurnWithoutThinking() async throws {
         let plainClient = AnthropicClient(
-            model: "claude-haiku-4-5-20251001",
             apiKey: TestAPIKeys.anthropic,
             thinkingBudgetTokens: 0
         )
 
         let turn1Body = ChatRequestBody(
+            model: "claude-haiku-4-5-20251001",
             messages: [
                 .user(content: .text("My name is Jack. Remember it.")),
             ],
@@ -982,6 +1004,7 @@ struct AnthropicLiveTests {
         #expect(!turn1Response.text.isEmpty, "Turn 1 should produce text")
 
         let turn2Body = ChatRequestBody(
+            model: "claude-haiku-4-5-20251001",
             messages: [
                 .user(content: .text("My name is Jack. Remember it.")),
                 .assistant(content: .text(turn1Response.text)),
@@ -1031,7 +1054,6 @@ struct DeepSeekToolCallLiveTests {
     // standard tool-call workflows.
     // Ref: https://api-docs.deepseek.com/guides/tool_calls
     let client = DeepSeekClient(
-        model: "deepseek-chat",
         apiKey: TestAPIKeys.deepseek
     )
 
@@ -1039,6 +1061,7 @@ struct DeepSeekToolCallLiveTests {
     func toolCallRoundTrip() async throws {
         // Turn 1: model decides to call get_weather
         let turn1Body = ChatRequestBody(
+            model: "deepseek-chat",
             messages: [
                 .user(content: .text("What is the weather in Tokyo? Use the get_weather tool.")),
             ],
@@ -1072,6 +1095,7 @@ struct DeepSeekToolCallLiveTests {
         )
 
         let turn2Body = ChatRequestBody(
+            model: "deepseek-chat",
             messages: [
                 .user(content: .text("What is the weather in Tokyo? Use the get_weather tool.")),
                 assistantMsg,
@@ -1108,7 +1132,6 @@ struct DeepSeekToolCallLiveTests {
 @Suite(.tags(.live))
 struct KimiToolCallLiveTests {
     let client = MoonshotClient(
-        model: "kimi-k2.5",
         apiKey: TestAPIKeys.moonshot
     )
 
@@ -1116,6 +1139,7 @@ struct KimiToolCallLiveTests {
     func toolCallRoundTrip() async throws {
         // Turn 1: model decides to call get_weather
         let turn1Body = ChatRequestBody(
+            model: "kimi-k2.5",
             messages: [
                 .user(content: .text("What is the weather in Beijing? Use the get_weather tool.")),
             ],
@@ -1149,6 +1173,7 @@ struct KimiToolCallLiveTests {
         )
 
         let turn2Body = ChatRequestBody(
+            model: "kimi-k2.5",
             messages: [
                 .user(content: .text("What is the weather in Beijing? Use the get_weather tool.")),
                 assistantMsg,
@@ -1187,6 +1212,7 @@ struct KimiToolCallLiveTests {
     func toolCallFollowUpTurn() async throws {
         // Turn 1: model decides to call get_weather
         let turn1 = try await client.chat(body: ChatRequestBody(
+            model: "kimi-k2.5",
             messages: [
                 .user(content: .text("What is the weather in Shanghai? Use the get_weather tool.")),
             ],
@@ -1215,6 +1241,7 @@ struct KimiToolCallLiveTests {
         )
 
         let turn2 = try await client.chat(body: ChatRequestBody(
+            model: "kimi-k2.5",
             messages: [
                 .user(content: .text("What is the weather in Shanghai? Use the get_weather tool.")),
                 assistantMsg,
@@ -1234,6 +1261,7 @@ struct KimiToolCallLiveTests {
         // id and BuildMessages.swift used that instead of the original model-issued tool call ID,
         // causing the tool result's toolCallID to not match any tool_call in the assistant message.
         let turn3 = try await client.chat(body: ChatRequestBody(
+            model: "kimi-k2.5",
             messages: [
                 .user(content: .text("What is the weather in Shanghai? Use the get_weather tool.")),
                 assistantMsg,
@@ -1260,6 +1288,7 @@ struct KimiToolCallLiveTests {
     func mismatchedToolCallIdIsRejected() async throws {
         // Turn 1: get a real tool call from the model
         let turn1 = try await client.chat(body: ChatRequestBody(
+            model: "kimi-k2.5",
             messages: [
                 .user(content: .text("What is the weather in Guangzhou? Use the get_weather tool.")),
             ],
@@ -1286,6 +1315,7 @@ struct KimiToolCallLiveTests {
         )
 
         let body = ChatRequestBody(
+            model: "kimi-k2.5",
             messages: [
                 .user(content: .text("What is the weather in Guangzhou? Use the get_weather tool.")),
                 assistantMsgWithWrongID,
@@ -1326,7 +1356,6 @@ struct KimiToolCallLiveTests {
 @Suite(.tags(.live))
 struct MistralToolCallLiveTests {
     let client = OpenAICompatibleClient(
-        model: "mistral-small-latest",
         baseURL: "https://api.mistral.ai",
         path: "/v1/chat/completions",
         apiKey: TestAPIKeys.mistral
@@ -1335,6 +1364,7 @@ struct MistralToolCallLiveTests {
     @Test("Mistral tool call: model calls get_weather then answers with result")
     func toolCallRoundTrip() async throws {
         let turn1Body = ChatRequestBody(
+            model: "mistral-small-latest",
             messages: [
                 .user(content: .text("What is the weather in Paris? Use the get_weather tool.")),
             ],
@@ -1364,6 +1394,7 @@ struct MistralToolCallLiveTests {
         )
 
         let turn2Body = ChatRequestBody(
+            model: "mistral-small-latest",
             messages: [
                 .user(content: .text("What is the weather in Paris? Use the get_weather tool.")),
                 assistantMsg,
@@ -1401,7 +1432,6 @@ struct MistralToolCallLiveTests {
 struct CerebrasToolCallLiveTests {
     /// llama3.1-8b has limited tool calling reliability; use llama-3.3-70b for tool use.
     let client = OpenAICompatibleClient(
-        model: "llama-3.3-70b",
         baseURL: "https://api.cerebras.ai",
         path: "/v1/chat/completions",
         apiKey: TestAPIKeys.cerebras
@@ -1410,6 +1440,7 @@ struct CerebrasToolCallLiveTests {
     @Test("Cerebras tool call: model calls get_weather then answers with result")
     func toolCallRoundTrip() async throws {
         let turn1Body = ChatRequestBody(
+            model: "llama-3.3-70b",
             messages: [
                 .user(content: .text("What is the weather in London? Use the get_weather tool.")),
             ],
@@ -1439,6 +1470,7 @@ struct CerebrasToolCallLiveTests {
         )
 
         let turn2Body = ChatRequestBody(
+            model: "llama-3.3-70b",
             messages: [
                 .user(content: .text("What is the weather in London? Use the get_weather tool.")),
                 assistantMsg,
@@ -1475,7 +1507,6 @@ struct CerebrasToolCallLiveTests {
 struct GroqToolCallLiveTests {
     /// Groq uses OpenAI-compatible format at api.groq.com/openai/v1
     let client = OpenAICompatibleClient(
-        model: "llama-3.3-70b-versatile",
         baseURL: "https://api.groq.com",
         path: "/openai/v1/chat/completions",
         apiKey: TestAPIKeys.groq
@@ -1484,6 +1515,7 @@ struct GroqToolCallLiveTests {
     @Test("Groq stream chat")
     func streamChat() async throws {
         let body = ChatRequestBody(
+            model: "llama-3.3-70b-versatile",
             messages: [.user(content: .text("What is 3 + 3? Reply briefly."))],
             maxCompletionTokens: 256,
             temperature: 0.3
@@ -1501,6 +1533,7 @@ struct GroqToolCallLiveTests {
     @Test("Groq chat completion")
     func chatCompletion() async throws {
         let body = ChatRequestBody(
+            model: "llama-3.3-70b-versatile",
             messages: [.user(content: .text("Reply with just the word: hello"))],
             maxCompletionTokens: 64,
             temperature: 0.3
@@ -1513,6 +1546,7 @@ struct GroqToolCallLiveTests {
     @Test("Groq multi-turn conversation")
     func multiTurn() async throws {
         let turn1 = try await client.chat(body: ChatRequestBody(
+            model: "llama-3.3-70b-versatile",
             messages: [.user(content: .text("My name is Kevin. Remember it."))],
             maxCompletionTokens: 256,
             temperature: 0.3
@@ -1520,6 +1554,7 @@ struct GroqToolCallLiveTests {
         #expect(!turn1.text.isEmpty)
 
         let turn2 = try await client.chat(body: ChatRequestBody(
+            model: "llama-3.3-70b-versatile",
             messages: [
                 .user(content: .text("My name is Kevin. Remember it.")),
                 .assistant(content: .text(turn1.text)),
@@ -1535,6 +1570,7 @@ struct GroqToolCallLiveTests {
     @Test("Groq tool call: model calls get_weather then answers with result")
     func toolCallRoundTrip() async throws {
         let turn1Body = ChatRequestBody(
+            model: "llama-3.3-70b-versatile",
             messages: [
                 .user(content: .text("What is the weather in New York? Use the get_weather tool.")),
             ],
@@ -1564,6 +1600,7 @@ struct GroqToolCallLiveTests {
         )
 
         let turn2Body = ChatRequestBody(
+            model: "llama-3.3-70b-versatile",
             messages: [
                 .user(content: .text("What is the weather in New York? Use the get_weather tool.")),
                 assistantMsg,
@@ -1597,13 +1634,13 @@ struct GroqToolCallLiveTests {
 @Suite(.tags(.live))
 struct OpenRouterToolCallLiveTests {
     let client = OpenRouterClient(
-        model: "anthropic/claude-sonnet-4.6",
         apiKey: TestAPIKeys.openRouter
     )
 
     @Test("OpenRouter (Claude Sonnet 4.6) tool call round-trip")
     func toolCallRoundTrip() async throws {
         let turn1Body = ChatRequestBody(
+            model: "anthropic/claude-sonnet-4.6",
             messages: [
                 .user(content: .text("What is the weather in Sydney? Use the get_weather tool.")),
             ],
@@ -1633,6 +1670,7 @@ struct OpenRouterToolCallLiveTests {
         )
 
         let turn2Body = ChatRequestBody(
+            model: "anthropic/claude-sonnet-4.6",
             messages: [
                 .user(content: .text("What is the weather in Sydney? Use the get_weather tool.")),
                 assistantMsg,

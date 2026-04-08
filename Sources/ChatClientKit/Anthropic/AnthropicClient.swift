@@ -23,7 +23,6 @@ import Foundation
 import ServerEvent
 
 open class AnthropicClient: BaseChatClient, @unchecked Sendable {
-    public let model: String
     open var baseURL: String
     open var apiKey: String?
     open var apiVersion: String
@@ -40,7 +39,6 @@ open class AnthropicClient: BaseChatClient, @unchecked Sendable {
     let chunkDecoderFactory: @Sendable () -> JSONDecoding
 
     public convenience init(
-        model: String,
         baseURL: String = "https://api.anthropic.com",
         apiKey: String? = nil,
         apiVersion: String = "2023-06-01",
@@ -48,7 +46,6 @@ open class AnthropicClient: BaseChatClient, @unchecked Sendable {
         thinkingBudgetTokens: Int = 0
     ) {
         self.init(
-            model: model,
             baseURL: baseURL,
             apiKey: apiKey,
             apiVersion: apiVersion,
@@ -59,7 +56,6 @@ open class AnthropicClient: BaseChatClient, @unchecked Sendable {
     }
 
     public init(
-        model: String,
         baseURL: String = "https://api.anthropic.com",
         apiKey: String? = nil,
         apiVersion: String = "2023-06-01",
@@ -68,7 +64,6 @@ open class AnthropicClient: BaseChatClient, @unchecked Sendable {
         errorCollector: ErrorCollector = .new(),
         dependencies: RemoteClientDependencies
     ) {
-        self.model = model
         self.baseURL = baseURL
         self.apiKey = apiKey
         self.apiVersion = apiVersion
@@ -87,12 +82,11 @@ open class AnthropicClient: BaseChatClient, @unchecked Sendable {
         )
         let requestBody = transformer.makeRequestBody(
             from: body,
-            model: model,
+            model: body.model,
             stream: true
         )
         let request = try makeURLRequest(body: requestBody)
-        let this = self
-        logger.info("starting Anthropic streaming request to model: \(this.model) with \(body.messages.count) messages")
+        logger.info("starting Anthropic streaming request to model: \(body.model) with \(body.messages.count) messages")
 
         let processor = AnthropicStreamProcessor(
             eventSourceFactory: eventSourceFactory,

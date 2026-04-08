@@ -22,11 +22,9 @@ import Foundation
 
 open class MoonshotClient: OpenAICompatibleClient, @unchecked Sendable {
     public convenience init(
-        model: String = "kimi-k2.5",
         apiKey: String? = nil
     ) {
         self.init(
-            model: model,
             baseURL: "https://api.moonshot.cn/v1",
             path: "/chat/completions",
             apiKey: apiKey
@@ -44,7 +42,6 @@ open class MoonshotClient: OpenAICompatibleClient, @unchecked Sendable {
     /// See: https://platform.moonshot.ai/docs/guide/use-kimi-api-to-complete-tool-calls
     override func applyModelSettings(to body: ChatRequestBody, streaming: Bool) -> ChatRequestBody {
         var requestBody = body.mergingAdjacentAssistantMessages()
-        requestBody.model = model
         requestBody.stream = streaming
         requestBody.messages = requestBody.messages.map { message in
             switch message {

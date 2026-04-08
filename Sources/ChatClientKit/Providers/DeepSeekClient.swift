@@ -17,11 +17,9 @@ import Foundation
 
 open class DeepSeekClient: OpenAICompatibleClient, @unchecked Sendable {
     public convenience init(
-        model: String = "deepseek-reasoner",
         apiKey: String? = nil
     ) {
         self.init(
-            model: model,
             baseURL: "https://api.deepseek.com",
             path: "/chat/completions",
             apiKey: apiKey
@@ -39,7 +37,6 @@ open class DeepSeekClient: OpenAICompatibleClient, @unchecked Sendable {
     ///      https://api-docs.deepseek.com/guides/tool_calls
     override func applyModelSettings(to body: ChatRequestBody, streaming: Bool) -> ChatRequestBody {
         var requestBody = body
-        requestBody.model = model
         requestBody.stream = streaming
         requestBody.messages = requestBody.messages.map { message in
             switch message {

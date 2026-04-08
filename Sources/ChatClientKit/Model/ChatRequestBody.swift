@@ -1,7 +1,7 @@
 import Foundation
 
 public struct ChatRequestBody: Sendable, Encodable {
-    public var model: String?
+    public var model: String
     public var messages: [Message]
     public var maxCompletionTokens: Int?
     public var stream: Bool?
@@ -18,7 +18,7 @@ public struct ChatRequestBody: Sendable, Encodable {
     }
 
     public init(
-        model: String? = nil,
+        model: String = "",
         messages: [Message] = [],
         maxCompletionTokens: Int? = nil,
         stream: Bool? = nil,

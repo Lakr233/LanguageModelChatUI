@@ -22,11 +22,9 @@ import Foundation
 
 open class OpenRouterClient: OpenAICompatibleClient, @unchecked Sendable {
     public convenience init(
-        model: String,
         apiKey: String? = nil
     ) {
         self.init(
-            model: model,
             baseURL: "https://openrouter.ai/api",
             path: "/v1/chat/completions",
             apiKey: apiKey,

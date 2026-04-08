@@ -2,7 +2,6 @@ import Foundation
 import ServerEvent
 
 open class OpenAICompatibleClient: BaseChatClient, @unchecked Sendable {
-    public let model: String
     open var baseURL: String?
     open var path: String?
     open var apiKey: String?
@@ -20,7 +19,6 @@ open class OpenAICompatibleClient: BaseChatClient, @unchecked Sendable {
     let errorExtractor: CompletionErrorExtractor
 
     public convenience init(
-        model: String,
         baseURL: String? = nil,
         path: String? = nil,
         apiKey: String? = nil,
@@ -28,7 +26,6 @@ open class OpenAICompatibleClient: BaseChatClient, @unchecked Sendable {
         requestCustomization: [String: Any] = [:]
     ) {
         self.init(
-            model: model,
             baseURL: baseURL,
             path: path,
             apiKey: apiKey,
@@ -39,7 +36,6 @@ open class OpenAICompatibleClient: BaseChatClient, @unchecked Sendable {
     }
 
     public init(
-        model: String,
         baseURL: String? = nil,
         path: String? = nil,
         apiKey: String? = nil,
@@ -48,7 +44,6 @@ open class OpenAICompatibleClient: BaseChatClient, @unchecked Sendable {
         errorCollector: ErrorCollector = .new(),
         dependencies: RemoteClientDependencies
     ) {
-        self.model = model
         self.baseURL = baseURL
         self.path = path
         self.apiKey = apiKey
@@ -65,8 +60,7 @@ open class OpenAICompatibleClient: BaseChatClient, @unchecked Sendable {
     ) async throws -> AnyAsyncSequence<ChatResponseChunk> {
         let requestBody = applyModelSettings(to: body, streaming: true)
         let request = try makeURLRequest(body: requestBody)
-        let this = self
-        logger.info("starting streaming request to model: \(this.model) with \(body.messages.count) messages, temperature: \(body.temperature ?? 1.0)")
+        logger.info("starting streaming request to model: \(body.model) with \(body.messages.count) messages, temperature: \(body.temperature ?? 1.0)")
 
         let processor = OpenAICompatibleStreamProcessor(
             eventSourceFactory: eventSourceFactory,
@@ -95,7 +89,6 @@ open class OpenAICompatibleClient: BaseChatClient, @unchecked Sendable {
 
     func applyModelSettings(to body: ChatRequestBody, streaming: Bool) -> ChatRequestBody {
         var requestBody = body
-        requestBody.model = model
         requestBody.stream = streaming
         return requestBody
     }

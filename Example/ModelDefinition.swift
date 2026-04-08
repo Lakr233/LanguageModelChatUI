@@ -28,7 +28,8 @@ let modelDefinitions: [ModelDefinition] = [
         requiredAPIKey: .moonshot,
         createModel: {
             .init(
-                client: MoonshotClient(model: "kimi-k2.5", apiKey: APIKeyID.moonshot.currentValue),
+                model: "kimi-k2.5",
+                client: MoonshotClient(apiKey: APIKeyID.moonshot.currentValue),
                 capabilities: [.tool, .visual],
                 contextLength: 128_000
             )
@@ -43,7 +44,8 @@ let modelDefinitions: [ModelDefinition] = [
         requiredAPIKey: .deepseek,
         createModel: {
             .init(
-                client: DeepSeekClient(model: "deepseek-reasoner", apiKey: APIKeyID.deepseek.currentValue),
+                model: "deepseek-reasoner",
+                client: DeepSeekClient(apiKey: APIKeyID.deepseek.currentValue),
                 capabilities: [.tool],
                 contextLength: 64000
             )
@@ -58,8 +60,8 @@ let modelDefinitions: [ModelDefinition] = [
         requiredAPIKey: .anthropic,
         createModel: {
             .init(
+                model: "claude-haiku-4-5-20251001",
                 client: AnthropicClient(
-                    model: "claude-haiku-4-5-20251001",
                     apiKey: APIKeyID.anthropic.currentValue,
                     thinkingBudgetTokens: 2048
                 ),
@@ -77,7 +79,8 @@ let modelDefinitions: [ModelDefinition] = [
         requiredAPIKey: .openRouter,
         createModel: {
             .init(
-                client: OpenRouterClient(model: "anthropic/claude-sonnet-4.6", apiKey: APIKeyID.openRouter.currentValue),
+                model: "anthropic/claude-sonnet-4.6",
+                client: OpenRouterClient(apiKey: APIKeyID.openRouter.currentValue),
                 capabilities: [.tool, .visual],
                 contextLength: 200_000
             )
@@ -92,7 +95,8 @@ let modelDefinitions: [ModelDefinition] = [
         requiredAPIKey: .openRouter,
         createModel: {
             .init(
-                client: OpenRouterClient(model: "google/gemini-3-flash-preview", apiKey: APIKeyID.openRouter.currentValue),
+                model: "google/gemini-3-flash-preview",
+                client: OpenRouterClient(apiKey: APIKeyID.openRouter.currentValue),
                 capabilities: [.tool, .visual],
                 contextLength: 1_000_000
             )
@@ -107,8 +111,8 @@ let modelDefinitions: [ModelDefinition] = [
         requiredAPIKey: .mistral,
         createModel: {
             .init(
+                model: "mistral-small-latest",
                 client: OpenAICompatibleClient(
-                    model: "mistral-small-latest",
                     baseURL: "https://api.mistral.ai",
                     path: "/v1/chat/completions",
                     apiKey: APIKeyID.mistral.currentValue
@@ -127,8 +131,8 @@ let modelDefinitions: [ModelDefinition] = [
         requiredAPIKey: .cerebras,
         createModel: {
             .init(
+                model: "llama3.1-8b",
                 client: OpenAICompatibleClient(
-                    model: "llama3.1-8b",
                     baseURL: "https://api.cerebras.ai",
                     path: "/v1/chat/completions",
                     apiKey: APIKeyID.cerebras.currentValue

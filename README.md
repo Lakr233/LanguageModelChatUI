@@ -35,13 +35,13 @@ import LanguageModelChatUI
 
 // checkout demo app for more
 let client = OpenAICompatibleClient(
-    model: "your-model-id",
     baseURL: "https://api.example.com/v1",
     path: "/chat/completions",
     apiKey: "your-api-key"
 )
 
 let model = ConversationSession.Model(
+    model: "your-model-id",
     client: client,
     capabilities: [.tool, .visual],
     contextLength: 128_000

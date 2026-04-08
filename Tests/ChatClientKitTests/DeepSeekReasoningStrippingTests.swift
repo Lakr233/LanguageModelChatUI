@@ -20,9 +20,10 @@ struct DeepSeekReasoningStrippingTests {
 
     @Test("DeepSeek resolve strips reasoning from plain assistant messages (no tool calls)")
     func stripReasoningFromAssistantMessages() {
-        let client = DeepSeekClient(model: "deepseek-reasoner", apiKey: "test-key")
+        let client = DeepSeekClient(apiKey: "test-key")
 
         let body = ChatRequestBody(
+            model: "deepseek-reasoner",
             messages: [
                 .system(content: .text("You are helpful.")),
                 .user(content: .text("Hello")),
@@ -56,7 +57,7 @@ struct DeepSeekReasoningStrippingTests {
     /// Ref: https://api-docs.deepseek.com/guides/reasoning_model (Tool Calls section)
     @Test("DeepSeek resolve preserves reasoning in assistant messages that have tool calls")
     func preserveReasoningWithToolCalls() {
-        let client = DeepSeekClient(model: "deepseek-reasoner", apiKey: "test-key")
+        let client = DeepSeekClient(apiKey: "test-key")
 
         let toolCalls: [ChatRequestBody.Message.ToolCall] = [
             .init(id: "call_1", function: .init(name: "get_weather", arguments: "{\"city\":\"Tokyo\"}")),
@@ -93,7 +94,7 @@ struct DeepSeekReasoningStrippingTests {
 
     @Test("DeepSeek resolve preserves content and reasoning when tool calls present")
     func preserveContentAndReasoningWithToolCalls() {
-        let client = DeepSeekClient(model: "deepseek-reasoner", apiKey: "test-key")
+        let client = DeepSeekClient(apiKey: "test-key")
 
         let toolCalls: [ChatRequestBody.Message.ToolCall] = [
             .init(id: "call_1", function: .init(name: "get_weather", arguments: "{\"city\":\"Tokyo\"}")),
@@ -125,7 +126,7 @@ struct DeepSeekReasoningStrippingTests {
 
     @Test("DeepSeek resolve strips reasoning from plain assistant message (no tool calls)")
     func stripReasoningNoToolCalls() {
-        let client = DeepSeekClient(model: "deepseek-reasoner", apiKey: "test-key")
+        let client = DeepSeekClient(apiKey: "test-key")
 
         let body = ChatRequestBody(
             messages: [
@@ -146,7 +147,7 @@ struct DeepSeekReasoningStrippingTests {
 
     @Test("DeepSeek resolve handles mixed: tool-call message keeps reasoning, plain message strips it")
     func mixedMessagesSelectiveReasoning() {
-        let client = DeepSeekClient(model: "deepseek-reasoner", apiKey: "test-key")
+        let client = DeepSeekClient(apiKey: "test-key")
 
         let toolCalls: [ChatRequestBody.Message.ToolCall] = [
             .init(id: "call_1", function: .init(name: "search", arguments: "{}")),
@@ -179,7 +180,7 @@ struct DeepSeekReasoningStrippingTests {
 
     @Test("DeepSeek encoded JSON preserves reasoning_content in tool-call assistant message")
     func encodedJSONPreservesReasoningWithToolCalls() throws {
-        let client = DeepSeekClient(model: "deepseek-reasoner", apiKey: "test-key")
+        let client = DeepSeekClient(apiKey: "test-key")
 
         let toolCalls: [ChatRequestBody.Message.ToolCall] = [
             .init(id: "call_abc", function: .init(name: "calc", arguments: "{}")),

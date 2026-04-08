@@ -20,9 +20,10 @@ struct MoonshotResolveTests {
 
     @Test("Moonshot resolve strips reasoning from plain assistant messages (no tool calls)")
     func stripReasoningFromAssistantMessages() {
-        let client = MoonshotClient(model: "kimi-k2.5", apiKey: "test-key")
+        let client = MoonshotClient(apiKey: "test-key")
 
         let body = ChatRequestBody(
+            model: "kimi-k2.5",
             messages: [
                 .system(content: .text("You are helpful.")),
                 .user(content: .text("Hello")),
@@ -52,7 +53,7 @@ struct MoonshotResolveTests {
 
     @Test("Moonshot resolve preserves reasoning in assistant messages that have tool calls")
     func preserveReasoningWithToolCalls() {
-        let client = MoonshotClient(model: "kimi-k2.5", apiKey: "test-key")
+        let client = MoonshotClient(apiKey: "test-key")
 
         let toolCalls: [ChatRequestBody.Message.ToolCall] = [
             .init(id: "call_1", function: .init(name: "get_weather", arguments: "{\"city\":\"Beijing\"}")),
@@ -89,7 +90,7 @@ struct MoonshotResolveTests {
 
     @Test("Moonshot resolve preserves content and reasoning when tool calls present")
     func preserveContentAndReasoningWithToolCalls() {
-        let client = MoonshotClient(model: "kimi-k2.5", apiKey: "test-key")
+        let client = MoonshotClient(apiKey: "test-key")
 
         let toolCalls: [ChatRequestBody.Message.ToolCall] = [
             .init(id: "call_1", function: .init(name: "search", arguments: "{\"q\":\"test\"}")),
@@ -122,7 +123,7 @@ struct MoonshotResolveTests {
 
     @Test("Moonshot resolve strips reasoning from plain assistant message (no tool calls)")
     func stripReasoningNoToolCalls() {
-        let client = MoonshotClient(model: "kimi-k2.5", apiKey: "test-key")
+        let client = MoonshotClient(apiKey: "test-key")
 
         let body = ChatRequestBody(
             messages: [
@@ -143,7 +144,7 @@ struct MoonshotResolveTests {
 
     @Test("Moonshot resolve does not inject content when assistant has no tool calls")
     func noContentInjectionWithoutToolCalls() {
-        let client = MoonshotClient(model: "kimi-k2.5", apiKey: "test-key")
+        let client = MoonshotClient(apiKey: "test-key")
 
         let body = ChatRequestBody(
             messages: [
@@ -163,7 +164,7 @@ struct MoonshotResolveTests {
 
     @Test("Moonshot resolve handles mixed: tool-call message keeps reasoning, plain message strips it")
     func mixedMessagesSelectiveReasoning() {
-        let client = MoonshotClient(model: "kimi-k2.5", apiKey: "test-key")
+        let client = MoonshotClient(apiKey: "test-key")
 
         let toolCalls: [ChatRequestBody.Message.ToolCall] = [
             .init(id: "call_1", function: .init(name: "search", arguments: "{}")),
@@ -196,7 +197,7 @@ struct MoonshotResolveTests {
 
     @Test("Moonshot resolve preserves tool and other message types")
     func preserveNonAssistantMessages() {
-        let client = MoonshotClient(model: "kimi-k2.5", apiKey: "test-key")
+        let client = MoonshotClient(apiKey: "test-key")
 
         let body = ChatRequestBody(
             messages: [
@@ -216,7 +217,7 @@ struct MoonshotResolveTests {
 
     @Test("Moonshot encoded JSON preserves reasoning_content in tool-call assistant message")
     func encodedJSONPreservesReasoningWithToolCalls() throws {
-        let client = MoonshotClient(model: "kimi-k2.5", apiKey: "test-key")
+        let client = MoonshotClient(apiKey: "test-key")
 
         let toolCalls: [ChatRequestBody.Message.ToolCall] = [
             .init(id: "call_abc", function: .init(name: "get_time", arguments: "{}")),
